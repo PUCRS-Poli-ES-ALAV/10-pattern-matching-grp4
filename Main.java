@@ -1,11 +1,30 @@
+import java.util.Random;
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) {
         String s1 = "abcdefghij";
         String s2 = "efg";
-        
-        System.out.println(pmatch(s1, s2));
+        String randomStr = "";
+        String pattern = UUID.randomUUID().toString().replaceAll("-","");
 
-        System.out.println(search_RK(s2, s1));
+        
+
+        Random rnd = new Random();
+        long rndLong = rnd.nextLong();
+
+        for(int i = 0; i < 15625 - pattern.length(); i++){ //500.000 caracteres
+            randomStr += UUID.randomUUID().toString().replaceAll("-","");
+            if(i == rndLong)
+            randomStr += pattern;
+        }
+
+        System.out.println(randomStr + "size: " + randomStr.length());
+
+        System.out.println("pmatch: " + pmatch(randomStr, pattern));
+
+        System.out.println("RK: " + search_RK(randomStr, pattern));
+
 
     }
 
