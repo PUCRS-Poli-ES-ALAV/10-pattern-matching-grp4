@@ -1,48 +1,50 @@
 import java.util.Random;
-import java.util.UUID;
-
 public class Main {
     public static void main(String[] args) {
-        String s1 = "abcdefghij";
-        String s2 = "efg";
-        String randomStr = "";
-        String pattern = UUID.randomUUID().toString().replaceAll("-","");
+        System.out.println(".\n");
+        // String s1 = "aaaaaaaaaaaaaaaaaaaaaaaaabc";
+        // String s2 = "abc";
 
-        
+        String randomStr = "";
+        String pattern = aleatorizador(32);
 
         Random rnd = new Random();
-        long rndLong = rnd.nextLong();
+        int rndInt = rnd.nextInt(15625);
 
         for(int i = 0; i < 15625 - pattern.length(); i++){ //500.000 caracteres
-            randomStr += UUID.randomUUID().toString().replaceAll("-","");
-            if(i == rndLong)
+            if(i == rndInt)
             randomStr += pattern;
+            else
+            randomStr += aleatorizador(32);
         }
 
-        System.out.println(randomStr + "size: " + randomStr.length());
+        System.out.println(randomStr + " size: " + randomStr.length());
 
         System.out.println("pmatch: " + pmatch(randomStr, pattern));
 
         System.out.println("RK: " + search_RK(randomStr, pattern));
 
+        System.out.println("pattern: " + pattern);
 
     }
 
     public static int pmatch(String s1, String s2) {
         int j = 0;
-        for (int i = 0; i < s1.length() - 1; i++) {
-            if (j == s2.length()) {
-                return i - j;
-            } else if (s1.charAt(i) == s2.charAt(j)) {
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) == s2.charAt(j)) {
                 j++;
+                if (j == s2.length()) {
+                    return i - j + 1;
+                }
             } else {
+                i = i - j;
                 j = 0;
             }
         }
-        return 0;
+        return -1;
     }
 
-    public static int search_RK(String pat, String txt){
+    public static int search_RK(String txt, String pat){
         int tamPat = pat.length();
         int tamTxt = txt.length();
         long patHash = hash(pat, tamPat);
@@ -59,13 +61,24 @@ public class Main {
     public static long hash(String s, int patt){
         long hash = 0;
         int ALFBT = 26;
-        int modHash = 199; //número primo grande
+        int modHash = 93281341; //número primo grande
 
         for(int i = 0; i < patt; i++){
-            hash = (hash * ALFBT + (int)s.charAt(i)) % modHash;
+            hash = (hash * ALFBT + s.charAt(i)) % modHash;
         }
         
         return hash;
+    }
+
+
+    public static String aleatorizador(int tam) {
+        String chars = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder sb = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < tam; i++) {
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 
 }
