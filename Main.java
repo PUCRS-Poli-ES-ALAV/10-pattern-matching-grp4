@@ -1,9 +1,9 @@
 import java.util.Random;
 public class Main {
+    private static int inst = 0;
+    private static int iter = 0;
     public static void main(String[] args) {
         System.out.println(".\n");
-        // String s1 = "aaaaaaaaaaaaaaaaaaaaaaaaabc";
-        // String s2 = "abc";
 
         String randomStr = "";
         String pattern = aleatorizador(32);
@@ -17,54 +17,84 @@ public class Main {
             else
             randomStr += aleatorizador(32);
         }
-
         System.out.println(randomStr + " size: " + randomStr.length());
 
-        System.out.println("pmatch: " + pmatch(randomStr, pattern));
 
+        long inicio = System.nanoTime();
+        System.out.print("pmatch: " + pmatch(randomStr, pattern));
+        long fim = System.nanoTime();
+
+        long tempo = (fim - inicio) / 1_000_000;
+        System.out.println(" tempo: " + tempo + "ms");
+        System.out.println("");
+
+
+        iter=0;
+        inst=0;
+        inicio = System.nanoTime();
         System.out.println("RK: " + search_RK(randomStr, pattern));
+        fim = System.nanoTime();
+
 
         System.out.println("pattern: " + pattern);
 
     }
 
     public static int pmatch(String s1, String s2) {
-        int j = 0;
-        for (int i = 0; i < s1.length(); i++) {
+        int j = 0; inst++;
+        for (int i = 0; i < s1.length(); i++){
+            if(i==0)
+            inst+=4;
+
+            iter++;
             if (s1.charAt(i) == s2.charAt(j)) {
                 j++;
+                inst+=2;
                 if (j == s2.length()) {
+                    inst++;
                     return i - j + 1;
                 }
             } else {
                 i = i - j;
                 j = 0;
+
+                inst+=2;
             }
         }
         return -1;
     }
 
     public static int search_RK(String txt, String pat){
-        int tamPat = pat.length();
-        int tamTxt = txt.length();
-        long patHash = hash(pat, tamPat);
+        iter++;
+        int tamPat = pat.length();  inst++;
+        int tamTxt = txt.length();  inst++;
+        long patHash = hash(pat, tamPat);   inst+=2;
         
         for(int i = 0; i <= tamTxt - tamPat; i++){
-            long txtHash = hash(txt.substring(i, i+tamPat), tamPat);
-            if(patHash == txtHash)
+            if(i==0)
+            inst+=4;
+            iter++;
+            long txtHash = hash(txt.substring(i, i+tamPat), tamPat);    inst+=2;
+            if(patHash == txtHash){
+                inst++;
+                iter++;
                 return i; //ocorrencia ou colisão
+            }
         }
 
         return tamTxt; //nenhuma ocorrencia
     }
 
     public static long hash(String s, int patt){
-        long hash = 0;
-        int ALFBT = 26;
-        int modHash = 93281341; //número primo grande
+        iter++;
+        long hash = 0;      inst++;
+        final int ALFBT = 26;     inst++;
+        final int modHash = 93281341; //número primo grande
+        inst++;
 
-        for(int i = 0; i < patt; i++){
-            hash = (hash * ALFBT + s.charAt(i)) % modHash;
+        for(int i = 0; i < patt; i++){  inst+=4;
+            iter++;
+            hash = (hash * ALFBT + s.charAt(i)) % modHash;  inst+=4;
         }
         
         return hash;
