@@ -9,9 +9,9 @@ public class Main {
         String pattern = aleatorizador(32);
 
         Random rnd = new Random();
-        int rndInt = rnd.nextInt(15625);
+        int rndInt = rnd.nextInt(5);
 
-        for(int i = 0; i < 15625 - pattern.length(); i++){ //500.000 caracteres
+        for(int i = 0; i < 5 - pattern.length(); i++){ //500.000 caracteres
             if(i == rndInt)
             randomStr += pattern;
             else
@@ -21,20 +21,23 @@ public class Main {
 
 
         long inicio = System.nanoTime();
-        System.out.print("pmatch: " + pmatch(randomStr, pattern));
+        System.out.println("pmatch: " + pmatch(randomStr, pattern));
         long fim = System.nanoTime();
 
         long tempo = (fim - inicio) / 1_000_000;
-        System.out.println(" tempo: " + tempo + "ms");
-        System.out.println("");
+        System.out.println("tempo: " + tempo + "ms");
+        System.out.println("iterações: " + iter + " // instruções: " + inst);
 
-
+        System.out.println("========");
         iter=0;
         inst=0;
         inicio = System.nanoTime();
         System.out.println("RK: " + search_RK(randomStr, pattern));
         fim = System.nanoTime();
 
+        tempo = (fim - inicio) / 1_000_000;
+        System.out.println("tempo: " + tempo + "ms");
+        System.out.println("iterações: " + iter + " // instruções: " + inst);
 
         System.out.println("pattern: " + pattern);
 
