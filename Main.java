@@ -10,19 +10,19 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(".\n");
 
-        String randomStr = "";
-        String pattern = aleatorizador(32);
+        String randomStr = aleatorizador(32);
+        String pattern = aleatorizador(10);
 
         Random rnd = new Random();
-        int rndInt = rnd.nextInt(5);
+        int rndInt = rnd.nextInt(randomStr.length());
 
-        for (int i = 0; i < 5 - pattern.length(); i++) { // 500.000 caracteres
-            if (i == rndInt)
-                randomStr += pattern;
-            else
-                randomStr += aleatorizador(32);
-        }
-        System.out.println(randomStr + " size: " + randomStr.length());
+        randomStr = randomStr.substring(0, rndInt) + pattern + randomStr.substring(rndInt, randomStr.length());
+        System.out.println();
+
+        System.out.println(randomStr + " \nsize: " + randomStr.length());
+
+        System.out.println("pattern: " + pattern);
+        System.out.println("========");
 
         long inicio = System.nanoTime();
         System.out.println("pmatch: " + pmatch(randomStr, pattern));
@@ -42,8 +42,6 @@ public class Main {
         tempo = (fim - inicio) / 1_000_000;
         System.out.println("tempo: " + tempo + "ms");
         System.out.println("iterações: " + iter + " // instruções: " + inst);
-
-        System.out.println("pattern: " + pattern);
 
     }
 
@@ -98,19 +96,12 @@ public class Main {
     }
 
     public static long hash(String s, int patt) {
-        iter++;
         long hash = 0;
-        inst++;
         final int ALFBT = 26;
-        inst++;
         final int modHash = 93281341; // número primo grande
-        inst++;
 
         for (int i = 0; i < patt; i++) {
-            inst += 4;
-            iter++;
             hash = (hash * ALFBT + s.charAt(i)) % modHash;
-            inst += 4;
         }
 
         return hash;
