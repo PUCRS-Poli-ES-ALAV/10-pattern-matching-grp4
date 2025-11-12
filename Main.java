@@ -10,8 +10,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(".\n");
 
-        String randomStr = aleatorizador(32);
-        String pattern = aleatorizador(10);
+        String randomStr = aleatorizador(512_000);
+        String pattern = aleatorizador(100_000);
 
         Random rnd = new Random();
         int rndInt = rnd.nextInt(randomStr.length());
@@ -96,12 +96,15 @@ public class Main {
     }
 
     public static long hash(String s, int patt) {
+        iter++;
         long hash = 0;
+        inst++;
         final int ALFBT = 26;
+        inst++;
         final int modHash = 93281341; // número primo grande
 
-        for (int i = 0; i < patt; i++) {
-            hash = (hash * ALFBT + s.charAt(i)) % modHash;
+        for (int i = 0; i < patt; i++) { inst+=4;
+            hash = (hash * ALFBT + s.charAt(i)) % modHash; inst+=4;
         }
 
         return hash;
