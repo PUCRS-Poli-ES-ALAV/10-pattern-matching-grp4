@@ -1,5 +1,6 @@
 import java.util.Random;
 
+// rabin karp O(n+m) // pior caso O(n*m)
 public class Ex2 {
 
     private static long iter = 0;
