@@ -4,8 +4,8 @@ import java.util.Random;
 // RK: O(n+m) - pior caso O(n*m)
 
 public class Main {
-    private static int inst = 0;
-    private static int iter = 0;
+    private static long inst = 0;
+    private static long iter = 0;
 
     public static void main(String[] args) {
         System.out.println(".\n");
