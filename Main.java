@@ -116,7 +116,7 @@ public class Main {
 
     public static String aleatorizador(int tam) {
         String chars = "abcdefghijklmnopqrstuvwxyz";
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(tam);
         Random rnd = new Random();
         for (int i = 0; i < tam; i++) {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
