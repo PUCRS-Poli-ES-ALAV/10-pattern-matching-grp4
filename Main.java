@@ -19,7 +19,9 @@ public class Main {
         randomStr = randomStr.substring(0, rndInt) + pattern + randomStr.substring(rndInt, randomStr.length());
         System.out.println();
 
-        System.out.println(randomStr + " \nsize: " + randomStr.length());
+        // System.out.println(randomStr + " \nsize: " + randomStr.length());
+        System.out.println("size: " + randomStr.length());
+        System.out.println("pattern size: " + pattern.length());
 
         System.out.println("pattern: " + pattern);
         System.out.println("========");
@@ -103,8 +105,10 @@ public class Main {
         inst++;
         final int modHash = 93281341; // número primo grande
 
-        for (int i = 0; i < patt; i++) { inst+=4;
-            hash = (hash * ALFBT + s.charAt(i)) % modHash; inst+=4;
+        for (int i = 0; i < patt; i++) {
+            inst += 4;
+            hash = (hash * ALFBT + s.charAt(i)) % modHash;
+            inst += 4;
         }
 
         return hash;
